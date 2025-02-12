@@ -3,12 +3,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add services to the container.
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["BaseAddress"]) });
-
-// Configure logging
-builder.Logging.SetMinimumLevel(LogLevel.Debug);
-builder.Logging.AddConsole();
 
 var app = builder.Build();
 
@@ -35,11 +29,8 @@ app.MapControllerRoute(
     pattern: "{controller=Upload}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-// Handle process exit event
-AppDomain.CurrentDomain.ProcessExit += (s, e) =>
-{
-    var logger = app.Services.GetRequiredService<ILogger<Program>>();
-    logger.LogInformation("Process is exiting.");
-};
+//тест комбинации пути
+Console.WriteLine("path combined");
+Console.WriteLine(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files"));
 
 app.Run();

@@ -19,8 +19,8 @@ namespace FileUpload.Controllers
             {
                 model.IsResponse = true;
 
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
-
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files");
+                
                 //create folder if not exist
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
@@ -36,6 +36,13 @@ namespace FileUpload.Controllers
                 }
                 model.IsSuccess = true;
                 model.Message = "File upload successfully";
+            }
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);  // Логирование ошибки
+                }
             }
             return View("Index", model);
         }
@@ -82,7 +89,7 @@ namespace FileUpload.Controllers
                 }
             }
 
-            return View("MultiFileUpload", model);
+            return View("MultiFile", model);
         }
     }
 }
